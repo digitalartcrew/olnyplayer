@@ -4,6 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ol' New York — Rich &amp; Loyal</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0a0a0a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Ol' New York" />
+<link rel="apple-touch-icon" href="https://res.cloudinary.com/de6mu8teu/image/upload/c_fill,w_180,h_180/v1779380616/OL_NEW_YORK_FINAL_COVER_lh6odo.png" />
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/de6mu8teu/image/upload/c_fill,w_64,h_64/v1779380616/OL_NEW_YORK_FINAL_COVER_lh6odo.png" />
 <style>
   :root {
     --accent: #d4af37;
@@ -346,6 +353,210 @@
     .content { gap: 18px; }
     .album-cover { width: 60vw; }
   }
+
+  .install-banner {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%) translateY(120%);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    width: min(440px, calc(100vw - 24px));
+    background: rgba(15,15,15,0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+  }
+
+  .install-banner.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  .install-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  }
+
+  .install-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .install-text {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    line-height: 1.3;
+  }
+
+  .install-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .install-sub {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 2px;
+  }
+
+  .install-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .install-add {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .install-add:hover { background: #f0c14b; }
+
+  .install-close {
+    background: none;
+    border: none;
+    color: #888;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .install-close:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+  .ios-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .ios-modal.show { display: flex; }
+
+  .ios-modal-content {
+    background: #111;
+    border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 18px;
+    padding: 24px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  }
+
+  .ios-modal-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 0 auto 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+
+  .ios-modal-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ios-modal h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .ios-modal p {
+    font-size: 14px;
+    color: #bbb;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .ios-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #ddd;
+  }
+
+  .ios-step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ios-modal-close {
+    margin-top: 14px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .ios-modal-close:hover { background: rgba(255,255,255,0.14); }
+
+  .share-icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    fill: #4aa3ff;
+  }
 </style>
 </head>
 <body>
@@ -396,6 +607,46 @@
   </div>
 
   <audio id="audio" preload="metadata"></audio>
+
+  <div class="install-banner" id="installBanner" role="dialog" aria-label="Install app">
+    <div class="install-icon">
+      <img src="https://res.cloudinary.com/de6mu8teu/image/upload/c_fill,w_96,h_96/v1779380616/OL_NEW_YORK_FINAL_COVER_lh6odo.png" alt="" />
+    </div>
+    <div class="install-text">
+      <div class="install-title">Add to Home Screen</div>
+      <div class="install-sub">Ol' New York — one tap access</div>
+    </div>
+    <div class="install-actions">
+      <button class="install-add" id="installAdd">Add</button>
+      <button class="install-close" id="installClose" aria-label="Dismiss">&times;</button>
+    </div>
+  </div>
+
+  <div class="ios-modal" id="iosModal" role="dialog" aria-label="iOS install instructions">
+    <div class="ios-modal-content">
+      <div class="ios-modal-icon">
+        <img src="https://res.cloudinary.com/de6mu8teu/image/upload/c_fill,w_144,h_144/v1779380616/OL_NEW_YORK_FINAL_COVER_lh6odo.png" alt="" />
+      </div>
+      <h3>Add to Home Screen</h3>
+      <p>Install Ol' New York on your iPhone for quick access.</p>
+      <div class="ios-step">
+        <div class="ios-step-num">1</div>
+        <div>Tap the Share button
+          <svg class="share-icon" viewBox="0 0 24 24"><path d="M12 2l-5 5h3v9h4V7h3l-5-5zm-7 14v4a2 2 0 002 2h10a2 2 0 002-2v-4h-2v4H7v-4H5z"/></svg>
+          in Safari
+        </div>
+      </div>
+      <div class="ios-step">
+        <div class="ios-step-num">2</div>
+        <div>Scroll and tap <strong>"Add to Home Screen"</strong></div>
+      </div>
+      <div class="ios-step">
+        <div class="ios-step-num">3</div>
+        <div>Tap <strong>"Add"</strong> in the top right</div>
+      </div>
+      <button class="ios-modal-close" id="iosModalClose">Got it</button>
+    </div>
+  </div>
 
 <script>
   const tracks = [
@@ -508,6 +759,65 @@
   });
 
   loadTrack(0, false);
+
+  // ----- Add to Home Screen (one-time) -----
+  const INSTALL_KEY = 'olnyInstallDismissed';
+  const installBanner = document.getElementById('installBanner');
+  const installAdd = document.getElementById('installAdd');
+  const installClose = document.getElementById('installClose');
+  const iosModal = document.getElementById('iosModal');
+  const iosModalClose = document.getElementById('iosModalClose');
+
+  let deferredPrompt = null;
+
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
+  const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+  const alreadyDismissed = localStorage.getItem(INSTALL_KEY) === '1';
+
+  function dismissInstall() {
+    localStorage.setItem(INSTALL_KEY, '1');
+    installBanner.classList.remove('show');
+    iosModal.classList.remove('show');
+  }
+
+  function showBanner() {
+    if (alreadyDismissed || isStandalone) return;
+    setTimeout(() => installBanner.classList.add('show'), 800);
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showBanner();
+  });
+
+  installAdd.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      dismissInstall();
+    } else if (isIOS) {
+      installBanner.classList.remove('show');
+      iosModal.classList.add('show');
+    }
+  });
+
+  installClose.addEventListener('click', dismissInstall);
+  iosModalClose.addEventListener('click', dismissInstall);
+  iosModal.addEventListener('click', (e) => { if (e.target === iosModal) dismissInstall(); });
+
+  window.addEventListener('appinstalled', dismissInstall);
+
+  if (isIOS && !isStandalone && !alreadyDismissed) showBanner();
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
 </script>
 </body>
 </html>
