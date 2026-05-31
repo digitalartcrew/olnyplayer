@@ -13,26 +13,26 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
-    height: 100%;
+    min-height: 100%;
     background: var(--bg);
     color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    overflow: hidden;
   }
 
   .stage {
     position: relative;
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding: 48px 0 64px;
     overflow: hidden;
   }
 
   .vinyl-bg {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     width: 140vmin;
@@ -187,26 +187,108 @@
   }
 
   .tracklist {
-    margin-top: 14px;
+    margin-top: 18px;
+    padding-top: 16px;
     border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .track-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 10px;
-    border-radius: 8px;
+    gap: 14px;
+    padding: 10px 16px 10px 10px;
+    border-radius: 999px;
     cursor: pointer;
-    color: #ccc;
+    color: #ddd;
     font-size: 14px;
-    transition: background 0.15s;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.18s ease;
   }
 
-  .track-item:hover { background: rgba(255,255,255,0.06); }
-  .track-item.active { color: var(--accent); background: rgba(212,175,55,0.08); }
-  .track-num { width: 18px; color: #777; font-size: 12px; }
+  .track-item:hover {
+    background: rgba(255,255,255,0.09);
+    border-color: rgba(255,255,255,0.14);
+    transform: translateX(2px);
+  }
+
+  .track-item.active {
+    color: #000;
+    background: linear-gradient(90deg, var(--accent), #f0c14b);
+    border-color: var(--accent);
+    box-shadow: 0 4px 16px rgba(212,175,55,0.35);
+  }
+
+  .track-item.active .track-num {
+    background: rgba(0,0,0,0.25);
+    color: #000;
+  }
+
+  .track-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    color: #aaa;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .track-title {
+    flex: 1;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .track-status {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .track-item.active .track-status { opacity: 1; }
+  .track-item:hover .track-status { opacity: 0.7; }
+
+  .track-status svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .equalizer {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 14px;
+  }
+
+  .equalizer span {
+    display: block;
+    width: 3px;
+    background: #000;
+    border-radius: 2px;
+    animation: eq 0.9s ease-in-out infinite;
+  }
+  .equalizer span:nth-child(1) { animation-delay: -0.3s; }
+  .equalizer span:nth-child(2) { animation-delay: -0.15s; }
+  .equalizer span:nth-child(3) { animation-delay: 0s; }
+
+  @keyframes eq {
+    0%, 100% { height: 4px; }
+    50%      { height: 14px; }
+  }
+
+  .track-item.paused .equalizer span { animation-play-state: paused; }
 
   @media (max-width: 600px) {
     .content { gap: 18px; }
@@ -261,14 +343,18 @@
 
 <script>
   const tracks = [
-    {
-      title: "How I Survive",
-      src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454818/6.HOW_I_SURVIVE_iwnwtg.mp3"
-    },
-    {
-      title: "Air It Out",
-      src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454818/8.AIR_IT_OUT_nputbu.mp3"
-    }
+    { title: "Slide On Em",         src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454810/1.SLIDE_ON_EM_INTRO_ucnl5k.mp3" },
+    { title: "Gangster Music",      src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454813/2.GANGSTA_MUSIK_oskrhz.mp3" },
+    { title: "North Side",          src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454813/3.NORTHSIDE_tj0gyl.mp3" },
+    { title: "God Body",            src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454814/4._GOD_BODY_kapaau.mp3" },
+    { title: "Park Days",           src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454812/5.PARK_DAYS_ymmucj.mp3" },
+    { title: "How I Survive",       src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454818/6.HOW_I_SURVIVE_iwnwtg.mp3" },
+    { title: "No Worries",          src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454819/7.NO_WARNINGS_msth0f.mp3" },
+    { title: "Air It Out",          src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454818/8.AIR_IT_OUT_nputbu.mp3" },
+    { title: "Man Down",            src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454817/9.MAN_DOWN_ahghfq.mp3" },
+    { title: "Boots On The Ground", src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454815/10.BOOTS_ON_THE_GROUND_nveqyr.mp3" },
+    { title: "Electrifying",        src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454817/11.ELECTRIFYING_gbmrrk.mp3" },
+    { title: "Old New York",        src: "https://res.cloudinary.com/de6mu8teu/video/upload/v1779454814/12.OLD_NEW_YORK_BNB_r3aclq.mp3" }
   ];
 
   const audio = document.getElementById('audio');
@@ -292,9 +378,18 @@
   function renderTracklist() {
     tracklist.innerHTML = '';
     tracks.forEach((t, i) => {
+      const isActive = i === currentIndex;
+      const isPlaying = isActive && !audio.paused && audio.src;
       const item = document.createElement('div');
-      item.className = 'track-item' + (i === currentIndex ? ' active' : '');
-      item.innerHTML = `<span class="track-num">${i + 1}</span><span>${t.title}</span>`;
+      item.className = 'track-item' + (isActive ? ' active' : '') + (isActive && !isPlaying ? ' paused' : '');
+      const status = isPlaying
+        ? '<div class="equalizer"><span></span><span></span><span></span></div>'
+        : '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+      item.innerHTML = `
+        <span class="track-num">${i + 1}</span>
+        <span class="track-title">${t.title}</span>
+        <span class="track-status">${status}</span>
+      `;
       item.addEventListener('click', () => loadTrack(i, true));
       tracklist.appendChild(item);
     });
@@ -328,12 +423,14 @@
     playIcon.innerHTML = PAUSE_SVG;
     playBtn.setAttribute('aria-label', 'Pause');
     vinylBg.classList.add('playing');
+    renderTracklist();
   });
 
   audio.addEventListener('pause', () => {
     playIcon.innerHTML = PLAY_SVG;
     playBtn.setAttribute('aria-label', 'Play');
     vinylBg.classList.remove('playing');
+    renderTracklist();
   });
 
   audio.addEventListener('ended', () => loadTrack(currentIndex + 1, true));
